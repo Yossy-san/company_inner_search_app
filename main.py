@@ -49,7 +49,7 @@ logger = logging.getLogger(ct.LOGGER_NAME)
 
 
 # テスト用のシンプルなコードを追加
-st.write("アプリは起動しました。")
+#st.write("アプリは起動しました。")
 
 
 # アプリ起動時のログファイルへの出力
