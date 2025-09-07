@@ -105,6 +105,22 @@ def initialize_retriever():
     # ロガーを読み込むことで、後続の処理中に発生したエラーなどがログファイルに記録される
     logger = logging.getLogger(ct.LOGGER_NAME)
 
+    # ==========================================
+    # ここから追加
+    # ==========================================
+    try:
+        # APIキーが読み込まれているかを確認
+        openai_key = os.getenv("OPENAI_API_KEY")
+        if not openai_key:
+            raise ValueError("OPENAI_API_KEY is not set.")
+        logger.info("OPENAI_API_KEY has been successfully loaded.")
+    except Exception as e:
+        logger.error(f"Failed to load API key: {e}")
+        st.stop()
+    # ==========================================
+    # ここまで追加
+    # ==========================================
+
     # すでにRetrieverが作成済みの場合、後続の処理を中断
     if "retriever" in st.session_state:
         return
