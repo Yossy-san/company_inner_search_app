@@ -73,6 +73,7 @@ def initialize():
     except Exception as e:
         print(f"An error occurred during initialization: {e}")
         raise # Streamlitにエラーを伝播させる
+    
 
 def initialize_logger():
     """
