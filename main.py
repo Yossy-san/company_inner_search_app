@@ -36,7 +36,7 @@ st.set_page_config(
 logger = logging.getLogger(ct.LOGGER_NAME)
 
 # テストログ
-st.write("streamlitをインポートしました。")
+# st.write("streamlitをインポートしました。")
 
 ############################################################
 # 3. 初期化処理
@@ -53,7 +53,7 @@ except Exception as e:
     st.stop()
 
 # テスト用のシンプルなコードを追加
-st.write("アプリは起動しました。")
+# st.write("アプリは起動しました。")
 
 # アプリ起動時のログファイルへの出力
 if not "initialized" in st.session_state:
