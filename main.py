@@ -2,9 +2,9 @@
 このファイルは、Webアプリのメイン処理が記述されたファイルです。
 """
 
-__import__('pysqlite3')
+# __import__('pysqlite3')
 import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 ############################################################
 # 1. ライブラリの読み込み
