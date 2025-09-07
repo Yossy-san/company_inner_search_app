@@ -32,19 +32,47 @@ load_dotenv()
 # 関数定義
 ############################################################
 
+#def initialize():
+#    """
+#    画面読み込み時に実行する初期化処理
+#    """
+#    # 初期化データの用意
+#    initialize_session_state()
+#    # ログ出力用にセッションIDを生成
+#    initialize_session_id()
+#    # ログ出力の設定
+#    initialize_logger()
+#    # RAGのRetrieverを作成
+#    initialize_retriever()
+
 def initialize():
     """
     画面読み込み時に実行する初期化処理
     """
-    # 初期化データの用意
-    initialize_session_state()
-    # ログ出力用にセッションIDを生成
-    initialize_session_id()
-    # ログ出力の設定
-    initialize_logger()
-    # RAGのRetrieverを作成
-    initialize_retriever()
+    try:
+        print("Step 1: initialize_session_state() を実行します。")
+        initialize_session_state()
+        print("Step 1: 完了しました。")
 
+        print("Step 2: initialize_session_id() を実行します。")
+        initialize_session_id()
+        print("Step 2: 完了しました。")
+
+        print("Step 3: initialize_logger() を実行します。")
+        initialize_logger()
+        print("Step 3: 完了しました。")
+
+        print("Step 4: initialize_retriever() を実行します。")
+        initialize_retriever()
+        print("Step 4: 完了しました。")
+
+        # 追加: ここで環境変数を表示
+        import os
+        print(f"OPENAI_API_KEY: {os.getenv('OPENAI_API_KEY')}")
+
+    except Exception as e:
+        print(f"An error occurred during initialization: {e}")
+        raise # Streamlitにエラーを伝播させる
 
 def initialize_logger():
     """
