@@ -50,25 +50,29 @@ def initialize():
     画面読み込み時に実行する初期化処理
     """
     try:
-        print("Step 1: initialize_session_state() を実行します。")
+        # 初期化データの用意
+        # print("Step 1: initialize_session_state() を実行します。")
         initialize_session_state()
-        print("Step 1: 完了しました。")
+        # print("Step 1: 完了しました。")
 
-        print("Step 2: initialize_session_id() を実行します。")
+        # ログ出力用にセッションIDを生成
+        # print("Step 2: initialize_session_id() を実行します。")
         initialize_session_id()
-        print("Step 2: 完了しました。")
+        # print("Step 2: 完了しました。")
 
-        print("Step 3: initialize_logger() を実行します。")
+        # ログ出力の設定
+        # print("Step 3: initialize_logger() を実行します。")
         initialize_logger()
-        print("Step 3: 完了しました。")
+        # print("Step 3: 完了しました。")
 
-        print("Step 4: initialize_retriever() を実行します。")
+        # RAGのRetrieverを作成
+        # print("Step 4: initialize_retriever() を実行します。")
         initialize_retriever()
-        print("Step 4: 完了しました。")
+        # print("Step 4: 完了しました。")
 
         # 追加: ここで環境変数を表示
         import os
-        print(f"OPENAI_API_KEY: {os.getenv('OPENAI_API_KEY')}")
+        # print(f"OPENAI_API_KEY: {os.getenv('OPENAI_API_KEY')}")
 
     except Exception as e:
         print(f"An error occurred during initialization: {e}")
@@ -166,21 +170,29 @@ def initialize_retriever():
     # 埋め込みモデルの用意
     embeddings = OpenAIEmbeddings()
     
-    # チャンク分割用のオブジェクトを作成
+    # 社員名簿.csvのみチャンク分割せず1チャンクで登録、それ以外は分割
+    docs_no_chunk = []
+    docs_chunked = []
+    for doc in docs_all:
+        source = doc.metadata.get("source", "")
+        if source.endswith("社員名簿.csv"):
+            docs_no_chunk.append(doc)
+        else:
+            docs_chunked.append(doc)
+
     text_splitter = CharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50,
+        chunk_size=ct.CHUNK_SIZE,
+        chunk_overlap=ct.CHUNK_OVERLAP,
         separator="\n"
     )
-
-    # チャンク分割を実施
-    splitted_docs = text_splitter.split_documents(docs_all)
+    splitted_docs = text_splitter.split_documents(docs_chunked)
+    all_docs_for_db = docs_no_chunk + splitted_docs
 
     # ベクターストアの作成
-    db = Chroma.from_documents(splitted_docs, embedding=embeddings)
+    db = Chroma.from_documents(all_docs_for_db, embedding=embeddings)
 
     # ベクターストアを検索するRetrieverの作成
-    st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
+    st.session_state.retriever = db.as_retriever(search_kwargs={"k": ct.RETRIEVER_TOP_K})
 
 
 def initialize_session_state():
