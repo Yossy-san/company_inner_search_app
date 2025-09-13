@@ -45,8 +45,10 @@ APP_BOOT_MESSAGE = "アプリが起動されました。"
 # ==========================================
 # LLM設定系
 # ==========================================
-MODEL = "gpt-4o-mini"
-TEMPERATURE = 0.5
+#MODEL = "gpt-4o-mini"
+MODEL = "gpt-5-nano"
+#TEMPERATURE = 0.5
+TEMPERATURE = 1.0
 
 
 # ==========================================
